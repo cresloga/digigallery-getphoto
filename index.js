@@ -1,6 +1,14 @@
+var S3 = require('aws-sdk/clients/s3');
+const S3_BUCKET = process.env.S3_BUCKET;
+
+const awsS3Config = 
+{
+	region :process.env.S3_REGION
+};
 
 exports.handler = function(event, context,callback) {
-	var picIndex = event.params.querystring.picIndex;
+	var picIndex = event.pathParameters.picIndex;
+	const s3 = new S3(awsS3Config);
 	var params = {Bucket: S3_BUCKET};
 	s3.listObjects(params, function(err, data){
 		if(err){

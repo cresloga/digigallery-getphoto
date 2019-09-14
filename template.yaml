@@ -6,6 +6,7 @@ Resources:
     Properties:
       Handler: index.handler
       Runtime: nodejs8.10
+      Timeout: 60
       CodeUri: ./
       Role: !GetAtt getPhotoRole.Arn
       Layers:
@@ -14,6 +15,12 @@ Resources:
         Variables:
           S3_BUCKET: '{{resolve:ssm:DIGIGALLERY_PHOTO_BUCKET:1}}'
           S3_REGION: '{{resolve:ssm:DIGIGALLERY_PHOTO_BUCKET_REGION:1}}'
+      Events:
+        photos:
+          Type: Api
+          Properties:
+            Path: /{picIndex}
+            Method: get
   getPhotoRole:
     Type: AWS::IAM::Role
     Properties:
