@@ -31,9 +31,18 @@ exports.handler = function(event, context,callback) {
 					        	url: url,
 				      			picIndex: picIndex,
 				      			fileName: bucketContents[picIndex].Key      		
-					    	};
+							};
+							
+							var response = {
+								"statusCode": 200,
+								"headers": {
+									"Content-Type": "application/json"
+								},
+								"body": JSON.stringify(returnData),
+								"isBase64Encoded": false
+							}
 					    	//console.log(returnData);
-					    	callback(null,JSON.parse(JSON.stringify(returnData,null,2)));					        
+					    	callback(null,response);					        
 						}
 			        	//console.log('the url of the image is', url);		        
 			        });
