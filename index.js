@@ -10,9 +10,15 @@ exports.handler = function(event, context,callback) {
 	var picIndex = event.pathParameters.picIndex;
 	const s3 = new S3(awsS3Config);
 	var params = {Bucket: S3_BUCKET};
+
+	var responseBody = {};  
+	var responseStatus = 200;
+	var responseContentType = "application/json";
+
 	s3.listObjects(params, function(err, data){
 		if(err){
-			callback(null,JSON.parse(JSON.stringify(err,null,2)));
+			responseBody = err;
+			responseStatus = 417;
 		}
 		else{
 			var bucketContents = data.Contents;
@@ -21,32 +27,31 @@ exports.handler = function(event, context,callback) {
 			//console.log("Bucket Size :"+bucketContents.length);			
 			if(picIndex<bucketContents.length){
 				var urlParams = {Bucket: S3_BUCKET, Key: bucketContents[picIndex].Key};
-			        s3.getSignedUrl('getObject',urlParams, function(err, url){
-			        	if(err){
-							//console.log(err);
-						    callback(null,JSON.parse(JSON.stringify(err,null,2)));
-						}
-						else{
-							var returnData = {
-					        	url: url,
-				      			picIndex: picIndex,
-				      			fileName: bucketContents[picIndex].Key      		
-							};
-							
-							var response = {
-								"statusCode": 200,
-								"headers": {
-									"Content-Type": "application/json"
-								},
-								"body": JSON.stringify(returnData),
-								"isBase64Encoded": false
-							}
-					    	//console.log(returnData);
-					    	callback(null,response);					        
-						}
-			        	//console.log('the url of the image is', url);		        
-			        });
+				s3.getSignedUrl('getObject',urlParams, function(err, url){
+					if(err){
+						responseBody = err;
+						responseStatus = 417;
+					}
+					else{
+						responseBody = {
+							url: url,
+							picIndex: picIndex,
+							fileName: bucketContents[picIndex].Key      		
+						};								        
+					}
+				});
 			}	    
 		}
+
+		var response = {
+			"statusCode": responseStatus,
+			"headers": {
+				"Content-Type": responseContentType
+			},
+			"body": JSON.stringify(responseBody),
+			"isBase64Encoded": false
+		}
+
+		callback(null,response);		
 	});
 }
