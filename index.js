@@ -21,6 +21,7 @@ exports.handler = function(event, context,callback) {
 			console.log("Error listing objects: "+err);
 			responseBody = err;
 			responseStatus = 417;
+			respond(responseStatus, responseContentType, responseBody, callback)
 		}
 		else{
 			console.log("List of Objects: "+data);
@@ -45,19 +46,22 @@ exports.handler = function(event, context,callback) {
 							fileName: bucketContents[picIndex].Key      		
 						};								        
 					}
+					respond(responseStatus, responseContentType, responseBody, callback)
 				});
 			}	    
-		}
-
-		var response = {
-			"statusCode": responseStatus,
-			"headers": {
-				"Content-Type": responseContentType
-			},
-			"body": JSON.stringify(responseBody),
-			"isBase64Encoded": false
-		}
-		console.log(response);
-		callback(null,response);		
+		}				
 	});
+}
+
+function respond(responseStatus, responseContentType, responseBody, callback){
+	var response = {
+		"statusCode": responseStatus,
+		"headers": {
+			"Content-Type": responseContentType
+		},
+		"body": JSON.stringify(responseBody),
+		"isBase64Encoded": false
+	}
+	console.log(response);
+	callback(null,response);
 }
