@@ -23,7 +23,7 @@ Resources:
           Properties:
             Path: /{picIndex}
             Method: get
-             RestApiId: !Ref photosApi
+            RestApiId: !Ref photosApi
   photosApi:
     Type: AWS::Serverless::Api
     Properties:
