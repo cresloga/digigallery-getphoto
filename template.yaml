@@ -19,10 +19,11 @@ Resources:
           S3_REGION: '{{resolve:ssm:DIGIGALLERY_PHOTO_BUCKET_REGION:1}}'
       Events:
         photos:
-          Type: Api
+          Type: photosApi
           Properties:
             Path: /{picIndex}
             Method: get
+             RestApiId: !Ref photosApi
   photosApi:
     Type: AWS::Serverless::Api
     Properties:
