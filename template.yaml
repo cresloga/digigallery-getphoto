@@ -4,6 +4,8 @@ Resources:
   getPhoto:
     Type: AWS::Serverless::Function
     Properties:
+      FunctionName: getPhotoV2
+      Description: API to fetch Signed URL and Filename from S3 Bucket for a given file index
       Handler: index.handler
       Runtime: nodejs8.10
       Timeout: 60
