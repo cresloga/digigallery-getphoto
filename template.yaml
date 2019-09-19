@@ -23,6 +23,13 @@ Resources:
           Properties:
             Path: /{picIndex}
             Method: get
+  photosApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: photos
+      StageName: prod
+      Cors:
+        AllowOrigin: "'*'"
   getPhotoRole:
     Type: AWS::IAM::Role
     Properties:
