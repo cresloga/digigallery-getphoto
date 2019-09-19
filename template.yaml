@@ -19,7 +19,7 @@ Resources:
           S3_REGION: '{{resolve:ssm:DIGIGALLERY_PHOTO_BUCKET_REGION:1}}'
       Events:
         photos:
-          Type: photosApi
+          Type: Api
           Properties:
             Path: /{picIndex}
             Method: get
