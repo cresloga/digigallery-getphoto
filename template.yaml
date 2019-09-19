@@ -21,7 +21,7 @@ Resources:
         photos:
           Type: Api
           Properties:
-            Path: /{picIndex}
+            Path: /photos/{picIndex}
             Method: get
             RestApiId: !Ref photosApi
   photosApi:
