@@ -27,7 +27,7 @@ Resources:
   photosApi:
     Type: AWS::Serverless::Api
     Properties:
-      Name: photos
+      Name: galleryV2
       StageName: prod
       Cors:
         AllowOrigin: "'*'"
