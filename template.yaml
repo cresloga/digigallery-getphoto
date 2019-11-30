@@ -4,7 +4,7 @@ Resources:
   getPhoto:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: getPhotoV2
+      FunctionName: getPhotoV3
       Description: API to fetch Signed URL and Filename from S3 Bucket for a given file index
       Handler: index.handler
       Runtime: nodejs8.10
@@ -23,11 +23,11 @@ Resources:
           Properties:
             Path: /photos/{picIndex}
             Method: get
-            RestApiId: !Ref photosApi
-  photosApi:
+            RestApiId: !Ref galleryApi
+  galleryApi:
     Type: AWS::Serverless::Api
     Properties:
-      Name: galleryV2
+      Name: galleryV3
       StageName: prod
       Cors:
         AllowOrigin: "'*'"
